@@ -7,5 +7,6 @@ data class Product(
     val name: String,
     val image: Int,
     val perice: Int,
-    val desc: String
+    val desc: String,
+    val count: Int
 ) : Serializable

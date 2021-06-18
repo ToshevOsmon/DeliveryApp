@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="110dp"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
         android:layout_margin="8dp"
         app:cardBackgroundColor="#fff"
         app:cardCornerRadius="6dp"
@@ -22,8 +22,7 @@
             <ImageView
                 android:id="@+id/imageProduct"
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:scaleType="fitCenter"
+                android:layout_height="140dp"
                 android:src="@drawable/ic_person" />
 
 
@@ -39,7 +38,7 @@
                 android:padding="5dp"
                 android:text="Product Name"
                 android:textColor="#000"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

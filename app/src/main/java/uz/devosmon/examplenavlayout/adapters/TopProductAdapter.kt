@@ -3,17 +3,26 @@ package uz.devosmon.examplenavlayout.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_top_product_layout.view.*
 import uz.devosmon.examplenavlayout.R
 import uz.devosmon.examplenavlayout.models.Product
+import java.util.*
+import kotlin.collections.ArrayList
 
-class TopProductAdapter(val lists:List<Product>) : RecyclerView.Adapter<TopProductAdapter.ViewHolder>() {
 
+interface OnClickListener {
+    fun onClick(product: Product)
+}
+
+class TopProductAdapter(val listener: OnClickListener) :
+    RecyclerView.Adapter<TopProductAdapter.ViewHolder>() {
+
+    var lists = ArrayList<Product>()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
 
     }
 
@@ -30,8 +39,17 @@ class TopProductAdapter(val lists:List<Product>) : RecyclerView.Adapter<TopProdu
 
         holder.itemView.imageProduct.setImageResource(lists[position].image)
         holder.itemView.productName.text = lists[position].name
+        holder.itemView.rootView.setOnClickListener {
+            listener.onClick(lists[position])
+        }
 
     }
 
     override fun getItemCount(): Int = lists.count()
+
+
+    fun setData(arrData: List<Product>) {
+        lists = arrData as ArrayList<Product>
+    }
+
 }

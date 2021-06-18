@@ -1,17 +1,18 @@
 package uz.devosmon.examplenavlayout.tablayout.tab_fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_products.*
+import uz.devosmon.examplenavlayout.ProductActivity
 
 import uz.devosmon.examplenavlayout.R
 import uz.devosmon.examplenavlayout.adapters.CategoryAdapter
+import uz.devosmon.examplenavlayout.adapters.OnClickListener
 import uz.devosmon.examplenavlayout.adapters.ShopsAdapter
 import uz.devosmon.examplenavlayout.adapters.TopProductAdapter
 import uz.devosmon.examplenavlayout.models.Category
@@ -22,7 +23,7 @@ import uz.devosmon.examplenavlayout.models.Shops
 class ProductsFragment : Fragment() {
     lateinit var adapter: TopProductAdapter
     var lists: List<Product> = ArrayList()
-    var topProductRv: RecyclerView? = null
+    var productRv: RecyclerView? = null
 
     lateinit var categoryAdapter: CategoryAdapter
     var categoryList: List<Category> = ArrayList()
@@ -38,7 +39,7 @@ class ProductsFragment : Fragment() {
     ): View? {
 
         val root = inflater.inflate(R.layout.fragment_products, container, false)
-        topProductRv = root.findViewById(R.id.topProductsRv)
+        productRv = root.findViewById(R.id.productsRv)
         categoryRv = root.findViewById(R.id.categoryRv)
         shopsRv = root.findViewById(R.id.shopsRv)
 
@@ -49,12 +50,22 @@ class ProductsFragment : Fragment() {
         laodCategoryRv()
         loadShopsRv()
 
-        topProductRv?.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        productRv?.layoutManager =
+            LinearLayoutManager(activity)
 
-        adapter = TopProductAdapter(lists)
-        topProductRv?.adapter = adapter
-        topProductRv?.setHasFixedSize(true)
+        adapter = TopProductAdapter(object : OnClickListener {
+            override fun onClick(product: Product) {
+
+                val intent = Intent(activity, ProductActivity::class.java)
+                intent.putExtra("product", product)
+                startActivity(intent)
+
+
+            }
+        })
+        adapter.setData(lists)
+        productRv?.adapter = adapter
+        productRv?.setHasFixedSize(true)
         adapter.notifyDataSetChanged()
 
 
@@ -142,14 +153,14 @@ class ProductsFragment : Fragment() {
 
         lists = ArrayList()
 
-        (lists as ArrayList<Product>).add(Product(1, "Watch", R.drawable.watch3, 200, "soat"))
+        (lists as ArrayList<Product>).add(Product(1, "Watch", R.drawable.watch3, 200, "soat",1))
         (lists as ArrayList<Product>).add(
             Product(
                 2,
                 "Laptop HP",
                 R.drawable.laptop2,
                 2000,
-                "notebook HP"
+                "notebook HP",1
             )
         )
         (lists as ArrayList<Product>).add(
@@ -158,7 +169,7 @@ class ProductsFragment : Fragment() {
                 "Redme 5 Pro",
                 R.drawable.redme5pro,
                 240,
-                "Redme 5 Pro"
+                "Redme 5 Pro",1
             )
         )
         (lists as ArrayList<Product>).add(
@@ -167,7 +178,7 @@ class ProductsFragment : Fragment() {
                 "Samsung Note 20",
                 R.drawable.gallaxynote20,
                 200,
-                "Samsung gallaxy note 20"
+                "Samsung gallaxy note 20",1
             )
         )
         (lists as ArrayList<Product>).add(
@@ -176,7 +187,7 @@ class ProductsFragment : Fragment() {
                 "Watch Armany",
                 R.drawable.watch2,
                 200,
-                "Armaniy Soat"
+                "Armaniy Soat",1
             )
         )
         (lists as ArrayList<Product>).add(
@@ -185,10 +196,10 @@ class ProductsFragment : Fragment() {
                 "Quloqchin",
                 R.drawable.quloqchin,
                 230,
-                "Quloqchin"
+                "Quloqchin",1
             )
         )
-        val product = Product(7, "Bluetooth", R.drawable.bluetooth, 22, "Bluetooth li quloqchin ")
+        val product = Product(7, "Bluetooth", R.drawable.bluetooth, 22, "Bluetooth li quloqchin ",1)
         (lists as ArrayList<Product>).add(product)
         (lists as ArrayList<Product>).add(
             Product(
@@ -196,7 +207,7 @@ class ProductsFragment : Fragment() {
                 "Quloqchin Stok",
                 R.drawable.quloqchinstok,
                 230,
-                "Quloqchin"
+                "Quloqchin",1
             )
         )
         (lists as ArrayList<Product>).add(
@@ -205,7 +216,7 @@ class ProductsFragment : Fragment() {
                 "Iphone 12 Pro Max",
                 R.drawable.iphone12promax,
                 230,
-                "Iphone 12 Pro Max"
+                "Iphone 12 Pro Max",1
             )
         )
     }
