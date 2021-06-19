@@ -20,7 +20,7 @@ abstract class ProductDatabase : RoomDatabase() {
             if (INSTANCE == null) {
 
                 INSTANCE =
-                    Room.databaseBuilder(context, ProductDatabase::class.java, "myShopingProductDb")
+                    Room.databaseBuilder(context, ProductDatabase::class.java, "shopingProductDb")
                         .allowMainThreadQueries()
                         .build()
             }

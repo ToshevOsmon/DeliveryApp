@@ -13,16 +13,23 @@ import kotlinx.android.synthetic.main.item_top_product_layout.view.imageProduct
 import uz.devosmon.examplenavlayout.R
 import uz.devosmon.examplenavlayout.models.Category
 import uz.devosmon.examplenavlayout.models.Product
+import uz.devosmon.examplenavlayout.models.ShopProduct
 import uz.devosmon.examplenavlayout.models.Shops
 
-class ShopingCartAdapter(val lists: List<Product>) :
+class ShopingCartAdapter :
     RecyclerView.Adapter<ShopingCartAdapter.ViewHolder>() {
 
+    var lists = ArrayList<ShopProduct>()
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
 
     }
+
+    fun setListData(data: ArrayList<ShopProduct>) {
+        this.lists = data
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 

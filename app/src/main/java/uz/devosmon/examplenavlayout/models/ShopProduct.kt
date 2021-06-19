@@ -6,8 +6,8 @@ import java.io.Serializable
 
 @Entity(tableName = "product")
 data class ShopProduct(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int=0,
+    @PrimaryKey
+    val id: Int,
     val name: String,
     val image: Int,
     val perice: Int,

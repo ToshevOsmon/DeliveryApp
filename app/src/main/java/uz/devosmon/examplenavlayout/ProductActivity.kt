@@ -5,25 +5,29 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_product.*
 import uz.devosmon.examplenavlayout.models.Product
+import uz.devosmon.examplenavlayout.models.ShopProduct
+import uz.devosmon.examplenavlayout.viewmodel.ShopProductViewModel
 
 class ProductActivity : AppCompatActivity() {
     lateinit var product: Product
-    lateinit var newProduct: Product
+    lateinit var newProduct: ShopProduct
     var isFav: Boolean = false
-     var newList = ArrayList<Product>()
-    var count: Int = 1
+    var count: Int = 0
     var isAddCart = false
     var sum = 0
 
-    @SuppressLint("ResourceAsColor")
+    //  lateinit var shoppingCartAdapter: ShopingCartAdapter
+    lateinit var shopProductViewModel: ShopProductViewModel
+
+    @SuppressLint("ResourceAsColor", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
         product = intent.getSerializableExtra("product") as Product
-
 
         imgToolBarBtnBack.setOnClickListener {
             finish()
@@ -45,6 +49,8 @@ class ProductActivity : AppCompatActivity() {
 
         minus.setOnClickListener {
 
+            count = product.count
+
             if (count > 1) {
                 count--
                 countProduct.text = count.toString()
@@ -63,30 +69,28 @@ class ProductActivity : AppCompatActivity() {
             countProduct.text = count.toString()
             sum = count * product.perice
             productPrice.text = "Perice: " + sum.toString() + ".00 $"
+
         }
 
-        newList = ArrayList()
-        newProduct = Product(product.id, product.name, product.image, sum, product.desc, count)
+
+        shopProductViewModel = ViewModelProviders.of(this).get(ShopProductViewModel::class.java)
 
         btnAddToCart.setOnClickListener {
 
-            if (isAddCart) {
-                btnAddToCart.text = "Add To Cart"
-                btnAddToCart.setBackgroundResource(R.drawable.bg_add_cart)
-                isAddCart = false
-                newList.remove(newProduct)
-                Log.d("TTTT", newList.size.toString())
-                plus.visibility = View.VISIBLE
-                minus.visibility = View.VISIBLE
-            } else {
-                btnAddToCart.text = "Added Cart"
-                btnAddToCart.setBackgroundResource(R.drawable.bg_added_cart)
-                isAddCart = true
-                newList.add(newProduct)
-                Log.d("TTTT", newList.size.toString())
-                plus.visibility = View.GONE
-                minus.visibility = View.GONE
-            }
+            Log.d("TTTT", sum.toString()+" \n Count: "+count.toString())
+
+            newProduct = ShopProduct(product.id, product.name, product.image, sum, product.desc, count)
+
+            btnAddToCart.text = "Add To Cart"
+            btnAddToCart.setBackgroundResource(R.drawable.bg_add_cart)
+            Log.d("TTTT", "viewModelga yitib kelidi")
+
+
+
+            shopProductViewModel.insertShopProduct(newProduct)
+            Log.d("TTTT", "viewModel ishladi")
+
+            Log.d("TTTT", newProduct.toString())
 
 
         }

@@ -134,6 +134,7 @@
                                 android:background="@drawable/bg_search"
                                 android:paddingStart="5dp"
                                 android:text="-"
+                                android:layout_margin="8dp"
                                 android:textSize="24dp"
                                 android:textStyle="bold" />
 
@@ -158,7 +159,8 @@
                                 android:paddingTop="10dp"
                                 android:paddingBottom="10dp"
                                 android:text="1"
-                                android:textSize="16sp"
+                                android:textColor="#000"
+                                android:textSize="20sp"
                                 android:textStyle="bold" />
 
 
@@ -173,6 +175,7 @@
 
 
                             <Button
+                                android:layout_margin="8dp"
                                 android:id="@+id/plus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
