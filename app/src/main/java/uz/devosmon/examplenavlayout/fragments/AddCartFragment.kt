@@ -1,6 +1,7 @@
 package uz.devosmon.examplenavlayout.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,6 +15,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import uz.devosmon.examplenavlayout.R
+import uz.devosmon.examplenavlayout.adapters.OnItemClickListener
+import uz.devosmon.examplenavlayout.adapters.OnItemDeleteListener
 import uz.devosmon.examplenavlayout.adapters.ShopingCartAdapter
 import uz.devosmon.examplenavlayout.models.ShopProduct
 import uz.devosmon.examplenavlayout.viewmodel.ShopProductViewModel
@@ -58,7 +61,27 @@ class AddCartFragment : Fragment() {
         })
 
         rv.layoutManager = LinearLayoutManager(activity)
-        shoppingCartAdapter = ShopingCartAdapter()
+        shoppingCartAdapter = ShopingCartAdapter(object : OnItemClickListener {
+            override fun onClick(shopProduct: ShopProduct) {
+
+                //ertaga qilinadigan vazifa
+//                val intent = Intent(activity?.baseContext, UpdateShopFragment::class.java)
+//                intent.putExtra("update", shopProduct)
+//                startActivity(intent)
+Toast.makeText(activity, shopProduct.name,Toast.LENGTH_SHORT).show()
+
+
+            }
+        }, object : OnItemDeleteListener {
+            override fun onClick(shopProduct: ShopProduct) {
+
+                shopProductViewModel.deleteShopProduct(shopProduct)
+                shoppingCartAdapter.notifyDataSetChanged()
+
+            }
+        })
+
+
         rv.adapter = shoppingCartAdapter
         Log.d("TTTT", "list ekranga chiqdi")
         rv.hasFixedSize()

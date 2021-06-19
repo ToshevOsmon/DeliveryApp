@@ -16,7 +16,10 @@ import uz.devosmon.examplenavlayout.models.Product
 import uz.devosmon.examplenavlayout.models.ShopProduct
 import uz.devosmon.examplenavlayout.models.Shops
 
-class ShopingCartAdapter :
+class ShopingCartAdapter(
+    val listener: OnItemClickListener,
+    val deleteListener: OnItemDeleteListener
+) :
     RecyclerView.Adapter<ShopingCartAdapter.ViewHolder>() {
 
     var lists = ArrayList<ShopProduct>()
@@ -44,10 +47,34 @@ class ShopingCartAdapter :
 
         holder.itemView.imageShoppingProduct.setImageResource(lists[position].image)
         holder.itemView.shoppingProductName.text = lists[position].name
-        holder.itemView.shoppingCount.text = lists[position].count.toString()
-        holder.itemView.shoppingPerice.text = lists[position].perice.toString()
+        holder.itemView.shoppingCount.text = "Count: " + lists[position].count.toString()
+        holder.itemView.shoppingPerice.text =
+            "Perice: " + lists[position].perice.toString() + ".00$"
+
+        holder.itemView.setOnClickListener {
+
+            listener.onClick(lists[position])
+
+        }
+        holder.itemView.deleteProductId.setOnClickListener {
+
+            deleteListener.onClick(lists[position])
+        }
+
 
     }
 
     override fun getItemCount(): Int = lists.count()
+}
+
+interface OnItemClickListener {
+
+    fun onClick(shopProduct: ShopProduct)
+
+}
+
+interface OnItemDeleteListener {
+
+    fun onClick(shopProduct: ShopProduct)
+
 }

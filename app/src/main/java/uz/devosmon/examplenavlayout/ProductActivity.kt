@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_product.*
 import uz.devosmon.examplenavlayout.models.Product
@@ -16,10 +16,8 @@ class ProductActivity : AppCompatActivity() {
     lateinit var newProduct: ShopProduct
     var isFav: Boolean = false
     var count: Int = 0
-    var isAddCart = false
     var sum = 0
 
-    //  lateinit var shoppingCartAdapter: ShopingCartAdapter
     lateinit var shopProductViewModel: ShopProductViewModel
 
     @SuppressLint("ResourceAsColor", "SetTextI18n")
@@ -77,21 +75,23 @@ class ProductActivity : AppCompatActivity() {
 
         btnAddToCart.setOnClickListener {
 
-            Log.d("TTTT", sum.toString()+" \n Count: "+count.toString())
+            Log.d("TTTT", sum.toString() + " \n Count: " + count.toString())
 
-            newProduct = ShopProduct(product.id, product.name, product.image, sum, product.desc, count)
+            newProduct =
+                ShopProduct(product.id, product.name, product.image, sum, product.desc, count)
 
             btnAddToCart.text = "Add To Cart"
             btnAddToCart.setBackgroundResource(R.drawable.bg_add_cart)
             Log.d("TTTT", "viewModelga yitib kelidi")
 
-
-
             shopProductViewModel.insertShopProduct(newProduct)
             Log.d("TTTT", "viewModel ishladi")
 
-            Log.d("TTTT", newProduct.toString())
+            btnAddToCart.text = "Added Cart"
+            btnAddToCart.isClickable = false
 
+
+            Log.d("TTTT", newProduct.toString())
 
         }
 
