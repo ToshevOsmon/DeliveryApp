@@ -18,9 +18,9 @@ class ProductAdapter :
     var lists = ArrayList<Product>()
     var filterLists = ArrayList<Product>()
 
-init {
-    filterLists = lists
-}
+    init {
+        filterLists = lists
+    }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -39,7 +39,6 @@ init {
         lists = arrData as ArrayList<Product>
         filterLists = lists
     }
-
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
