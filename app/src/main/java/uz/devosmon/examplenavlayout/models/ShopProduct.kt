@@ -1,10 +1,11 @@
 package uz.devosmon.examplenavlayout.models
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-@Entity(tableName = "product")
+@Entity(tableName = "shop_product")
 data class ShopProduct(
     @PrimaryKey
     val id: Int,

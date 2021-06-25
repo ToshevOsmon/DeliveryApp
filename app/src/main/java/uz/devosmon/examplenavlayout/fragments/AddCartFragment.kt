@@ -49,8 +49,11 @@ class AddCartFragment : Fragment() {
             if ((it as ArrayList<ShopProduct>).isEmpty()) {
                 Toast.makeText(activity, "List Bosh", Toast.LENGTH_LONG).show()
             } else {
+
                 shoppingCartAdapter.setListData(it)
+
                 for (product in it) {
+
                     summa = summa + product.perice
                 }
                 totalPerice.text = "Total: " + summa.toString() + ".00$"
@@ -64,11 +67,18 @@ class AddCartFragment : Fragment() {
         shoppingCartAdapter = ShopingCartAdapter(object : OnItemClickListener {
             override fun onClick(shopProduct: ShopProduct) {
 
-                //ertaga qilinadigan vazifa
-//                val intent = Intent(activity?.baseContext, UpdateShopFragment::class.java)
-//                intent.putExtra("update", shopProduct)
-//                startActivity(intent)
-Toast.makeText(activity, shopProduct.name,Toast.LENGTH_SHORT).show()
+                // send data from fragment to fragment
+
+                val bundle = Bundle()
+
+                bundle.putSerializable("update", shopProduct)
+
+
+                val fragment = UpdateShopFragment()
+                fragment.arguments = bundle
+                fragmentManager?.beginTransaction()?.replace(R.id.container,fragment)?.commit()
+
+                // Toast.makeText(activity, shopProduct.name, Toast.LENGTH_SHORT).show()
 
 
             }
@@ -76,6 +86,10 @@ Toast.makeText(activity, shopProduct.name,Toast.LENGTH_SHORT).show()
             override fun onClick(shopProduct: ShopProduct) {
 
                 shopProductViewModel.deleteShopProduct(shopProduct)
+
+                summa = summa - shopProduct.perice
+                totalPerice.text = "Total: " + summa.toString() + ".00$"
+               rv.adapter = shoppingCartAdapter
                 shoppingCartAdapter.notifyDataSetChanged()
 
             }

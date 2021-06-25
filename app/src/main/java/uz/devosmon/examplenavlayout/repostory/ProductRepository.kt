@@ -5,20 +5,36 @@ import android.os.AsyncTask
 import androidx.lifecycle.LiveData
 import uz.devosmon.examplenavlayout.database.ProductDao
 import uz.devosmon.examplenavlayout.database.ProductDatabase
+import uz.devosmon.examplenavlayout.models.Product
 import uz.devosmon.examplenavlayout.models.ShopProduct
 
 class ProductRepository(app: Application) {
 
-    private lateinit var productDao: ProductDao
+    private var productDao: ProductDao
 
-    private lateinit var products: LiveData<List<ShopProduct>>
+    private var products: LiveData<List<ShopProduct>>
+
+    private var lists: LiveData<List<Product>>
 
     init {
 
         val database = ProductDatabase.getProductDatabase(app)
         productDao = database.productDao()
         products = productDao.getAllProduct()
+        lists = productDao.getProducts()
     }
+
+    //product list
+    fun getAllProducts(): LiveData<List<Product>> {
+        return lists
+    }
+
+
+    fun insertProduct(product: Product) {
+        InsertProductAsyncTask(productDao).execute(product)
+    }
+
+    //shopping list
 
     fun getAllShopProducts(): LiveData<List<ShopProduct>> {
         return products
@@ -38,13 +54,7 @@ class ProductRepository(app: Application) {
 
 }
 
-class InsertShopProductAsyncTask(productDao: ProductDao) : AsyncTask<ShopProduct, Void, Void>() {
-
-    private lateinit var productDao: ProductDao
-
-    init {
-        this.productDao = productDao
-    }
+class InsertShopProductAsyncTask(private var productDao: ProductDao) : AsyncTask<ShopProduct, Void, Void>() {
 
     override fun doInBackground(vararg p0: ShopProduct?): Void? {
         productDao.insertProduct(p0)
@@ -53,13 +63,17 @@ class InsertShopProductAsyncTask(productDao: ProductDao) : AsyncTask<ShopProduct
 
 }
 
-class UpdateShopProductAsyncTask(productDao: ProductDao) : AsyncTask<ShopProduct, Void, Void>() {
+class InsertProductAsyncTask(private var productDao: ProductDao) : AsyncTask<Product, Void, Void>() {
 
-    private lateinit var productDao: ProductDao
-
-    init {
-        this.productDao = productDao
+    override fun doInBackground(vararg p0: Product?): Void? {
+        productDao.insert(p0)
+        return null
     }
+
+}
+
+
+class UpdateShopProductAsyncTask(private var productDao: ProductDao) : AsyncTask<ShopProduct, Void, Void>() {
 
     override fun doInBackground(vararg p0: ShopProduct?): Void? {
         productDao.updateProduct(p0)
@@ -68,13 +82,7 @@ class UpdateShopProductAsyncTask(productDao: ProductDao) : AsyncTask<ShopProduct
 
 }
 
-class DeleteShopProductAsyncTask(productDao: ProductDao) : AsyncTask<ShopProduct, Void, Void>() {
-
-    private lateinit var productDao: ProductDao
-
-    init {
-        this.productDao = productDao
-    }
+class DeleteShopProductAsyncTask(private var productDao: ProductDao) : AsyncTask<ShopProduct, Void, Void>() {
 
     override fun doInBackground(vararg p0: ShopProduct?): Void? {
         productDao.deleteProduct(p0)

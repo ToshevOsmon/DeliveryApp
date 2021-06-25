@@ -11,13 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import uz.devosmon.examplenavlayout.ProductActivity
 
 import uz.devosmon.examplenavlayout.R
-import uz.devosmon.examplenavlayout.adapters.CategoryAdapter
-import uz.devosmon.examplenavlayout.adapters.OnClickListener
-import uz.devosmon.examplenavlayout.adapters.ShopsAdapter
-import uz.devosmon.examplenavlayout.adapters.TopProductAdapter
+import uz.devosmon.examplenavlayout.adapters.*
 import uz.devosmon.examplenavlayout.models.Category
 import uz.devosmon.examplenavlayout.models.Product
 import uz.devosmon.examplenavlayout.models.Shops
+import uz.devosmon.examplenavlayout.viewmodel.ShopProductViewModel
 
 
 class ProductsFragment : Fragment() {
@@ -28,6 +26,9 @@ class ProductsFragment : Fragment() {
     lateinit var categoryAdapter: CategoryAdapter
     var categoryList: List<Category> = ArrayList()
     var categoryRv: RecyclerView? = null
+
+
+
 
     lateinit var shopAdapter: ShopsAdapter
     var shopsList: List<Shops> = ArrayList()
@@ -49,6 +50,7 @@ class ProductsFragment : Fragment() {
 
         laodCategoryRv()
         loadShopsRv()
+
 
         productRv?.layoutManager =
             LinearLayoutManager(activity)

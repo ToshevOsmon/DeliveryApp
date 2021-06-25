@@ -13,9 +13,11 @@ import uz.devosmon.examplenavlayout.viewmodel.ShopProductViewModel
 
 class ProductActivity : AppCompatActivity() {
     lateinit var product: Product
+    lateinit var shopProduct: ShopProduct
     lateinit var newProduct: ShopProduct
     var isFav: Boolean = false
-    var count: Int = 0
+    var isAddProduct: Boolean = true
+    var count: Int = 1
     var sum = 0
 
     lateinit var shopProductViewModel: ShopProductViewModel
@@ -25,7 +27,12 @@ class ProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product)
 
-        product = intent.getSerializableExtra("product") as Product
+
+            product = intent.getSerializableExtra("product") as Product
+
+        //    shopProduct = intent.getSerializableExtra("update") as ShopProduct
+
+
 
         imgToolBarBtnBack.setOnClickListener {
             finish()
@@ -75,20 +82,46 @@ class ProductActivity : AppCompatActivity() {
 
         btnAddToCart.setOnClickListener {
 
+
             Log.d("TTTT", sum.toString() + " \n Count: " + count.toString())
 
-            newProduct =
-                ShopProduct(product.id, product.name, product.image, sum, product.desc, count)
-
             btnAddToCart.text = "Add To Cart"
+
             btnAddToCart.setBackgroundResource(R.drawable.bg_add_cart)
-            Log.d("TTTT", "viewModelga yitib kelidi")
 
-            shopProductViewModel.insertShopProduct(newProduct)
-            Log.d("TTTT", "viewModel ishladi")
+            if (isAddProduct) {
 
-            btnAddToCart.text = "Added Cart"
-            btnAddToCart.isClickable = false
+                btnAddToCart.text = "Added Cart"
+                btnAddToCart.setBackgroundResource(R.drawable.bg_added_cart)
+
+
+                newProduct =
+                    ShopProduct(product.id, product.name, product.image, sum, product.desc, count)
+
+                Log.d("TTTT", "viewModelga yitib kelidi")
+
+                shopProductViewModel.insertShopProduct(newProduct)
+                Log.d("TTTT", "viewModel ishladi")
+                isAddProduct = false
+                btnAddToCart.isClickable = false
+
+            } else {
+                isAddProduct = true
+                btnAddToCart.isClickable = true
+
+                btnAddToCart.text = "Add Cart"
+
+                btnAddToCart.setBackgroundResource(R.drawable.bg_add_cart)
+
+               // newProduct = ShopProduct(product.id, product.name, product.image, sum, product.desc, count)
+
+                Log.d("TTTT", "viewModelga yitib kelidi")
+
+               // shopProductViewModel.updateShopProduct(newProduct)
+
+            }
+
+            // btnAddToCart.text = "Added Cart"
 
 
             Log.d("TTTT", newProduct.toString())
