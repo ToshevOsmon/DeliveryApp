@@ -33,6 +33,7 @@ class UpdateShopFragment : Fragment() {
     lateinit var productDesc: TextView
     var count = 0
     var sum = 0
+    var perice = 0
 
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onCreateView(
@@ -59,7 +60,9 @@ class UpdateShopFragment : Fragment() {
         imgItem.setImageResource(product.image)
         countProduct.text = product.count.toString()
         count = product.count
+        sum = product.perice
         productPrice.text = product.perice.toString() + ".00$"
+        perice = sum / count
 
         productDesc.text = product.desc
 
@@ -68,13 +71,13 @@ class UpdateShopFragment : Fragment() {
 
             if (count > 1) {
                 count--
-                sum = product.perice * count
+                sum = sum - perice
 
                 countProduct.text = count.toString()
                 productPrice.text = sum.toString() + ".00$"
             } else {
                 count = 1
-                sum = product.perice
+                sum = perice
 
                 countProduct.text = count.toString()
                 productPrice.text = sum.toString() + ".00$"
@@ -84,7 +87,7 @@ class UpdateShopFragment : Fragment() {
         plus.setOnClickListener {
 
             count++
-            sum = product.perice * count
+            sum = sum + perice
 
             countProduct.text = count.toString()
             productPrice.text = sum.toString() + ".00$"
@@ -95,9 +98,10 @@ class UpdateShopFragment : Fragment() {
 
         btnUpdateToCart.setOnClickListener {
 
-            Log.d("TTTT","Count: ${count} Sum: ${sum}")
+            Log.d("TTTT", "Count: ${count} Sum: ${sum}")
 
-            shopProduct = ShopProduct(product.id, product.name, product.image, sum, product.desc, count)
+            shopProduct =
+                ShopProduct(product.id, product.name, product.image, sum, product.desc, count)
 
             shopProductViewModel = ViewModelProviders.of(this).get(ShopProductViewModel::class.java)
             shopProductViewModel.updateShopProduct(shopProduct)
@@ -106,7 +110,7 @@ class UpdateShopFragment : Fragment() {
             btnUpdateToCart.setBackgroundResource(R.drawable.bg_added_cart)
 
             val fragment = AddCartFragment()
-            fragmentManager?.beginTransaction()?.replace(R.id.container,fragment)?.commit()
+            fragmentManager?.beginTransaction()?.replace(R.id.container, fragment)?.commit()
 
         }
 

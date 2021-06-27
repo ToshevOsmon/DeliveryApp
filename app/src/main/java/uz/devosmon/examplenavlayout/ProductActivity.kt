@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_product.*
 import uz.devosmon.examplenavlayout.models.Product
@@ -14,13 +13,13 @@ import uz.devosmon.examplenavlayout.viewmodel.ShopProductViewModel
 class ProductActivity : AppCompatActivity() {
     lateinit var product: Product
     lateinit var shopProduct: ShopProduct
-    lateinit var newProduct: ShopProduct
-    var isFav: Boolean = false
-    var isAddProduct: Boolean = true
-    var count: Int = 1
-    var sum = 0
+    private lateinit var newProduct: ShopProduct
+    private var isFav: Boolean = false
+    private var isAddProduct: Boolean = true
+    var count = 0
+    private var sum = 0
 
-    lateinit var shopProductViewModel: ShopProductViewModel
+    private lateinit var shopProductViewModel: ShopProductViewModel
 
     @SuppressLint("ResourceAsColor", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +27,9 @@ class ProductActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product)
 
 
-            product = intent.getSerializableExtra("product") as Product
+
+
+           product = intent.getSerializableExtra("product") as Product
 
         //    shopProduct = intent.getSerializableExtra("update") as ShopProduct
 
@@ -38,12 +39,12 @@ class ProductActivity : AppCompatActivity() {
             finish()
         }
         imgToolBarBtnFav.setOnClickListener {
-            if (isFav) {
+            isFav = if (isFav) {
                 imgToolBarBtnFav.setImageResource(R.drawable.ic_favorite_border)
-                isFav = false
+                false
             } else {
                 imgToolBarBtnFav.setImageResource(R.drawable.ic_favorite)
-                isFav = true
+                true
             }
         }
 
@@ -60,12 +61,12 @@ class ProductActivity : AppCompatActivity() {
                 count--
                 countProduct.text = count.toString()
                 sum = count * product.perice
-                productPrice.text = "Perice: " + sum.toString() + ".00 $"
+                productPrice.text = "Perice: $sum.00 $"
             } else {
                 count = 1
                 countProduct.text = count.toString()
                 sum = count * product.perice
-                productPrice.text = "Perice: " + sum.toString() + ".00 $"
+                productPrice.text = "Perice: $sum.00 $"
             }
         }
         plus.setOnClickListener {
@@ -73,7 +74,7 @@ class ProductActivity : AppCompatActivity() {
             count++
             countProduct.text = count.toString()
             sum = count * product.perice
-            productPrice.text = "Perice: " + sum.toString() + ".00 $"
+            productPrice.text = "Perice: $sum.00 $"
 
         }
 
@@ -83,7 +84,7 @@ class ProductActivity : AppCompatActivity() {
         btnAddToCart.setOnClickListener {
 
 
-            Log.d("TTTT", sum.toString() + " \n Count: " + count.toString())
+            Log.d("TTTT", "$sum \n Count: $count")
 
             btnAddToCart.text = "Add To Cart"
 

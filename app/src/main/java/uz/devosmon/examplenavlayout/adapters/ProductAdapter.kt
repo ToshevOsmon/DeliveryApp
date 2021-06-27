@@ -12,7 +12,11 @@ import uz.devosmon.examplenavlayout.models.Product
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ProductAdapter :
+interface OnClickItemListener {
+    fun onClick(product: Product)
+}
+
+class ProductAdapter(private val listener: OnClickItemListener) :
     RecyclerView.Adapter<ProductAdapter.ViewHolder>(), Filterable {
 
     var lists = ArrayList<Product>()
@@ -23,7 +27,7 @@ class ProductAdapter :
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
+//no data
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,6 +50,10 @@ class ProductAdapter :
         holder.itemView.imageProduct.setImageResource(filterLists[position].image)
         holder.itemView.productName.text = filterLists[position].name
 
+        holder.itemView.setOnClickListener {
+            listener.onClick(filterLists[position])
+        }
+
     }
 
     override fun getItemCount(): Int = filterLists.count()
@@ -59,7 +67,7 @@ class ProductAdapter :
                 if (charSearch.isEmpty()) {
                     filterLists = lists
                 } else {
-                    var resultList = ArrayList<Product>()
+                    val resultList = ArrayList<Product>()
                     for (raw in lists) {
 
                         if (raw.name.toLowerCase(Locale.ROOT).contains(

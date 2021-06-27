@@ -1,5 +1,6 @@
 package uz.devosmon.examplenavlayout.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import uz.devosmon.examplenavlayout.ProductActivity
 import uz.devosmon.examplenavlayout.R
+import uz.devosmon.examplenavlayout.adapters.OnClickItemListener
 import uz.devosmon.examplenavlayout.adapters.ProductAdapter
 import uz.devosmon.examplenavlayout.models.Product
 
@@ -16,7 +19,7 @@ import uz.devosmon.examplenavlayout.models.Product
 class SearchFragment : Fragment() {
 
     lateinit var search: SearchView
-    var adapter = ProductAdapter()
+    lateinit var adapter: ProductAdapter
     var lists = ArrayList<Product>()
     var productRv: RecyclerView? = null
 
@@ -28,13 +31,20 @@ class SearchFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_search, container, false)
 
         productRv = root.findViewById(R.id.searchProductRv)
-       search = root.findViewById<SearchView>(R.id.search)
+        search = root.findViewById(R.id.search)
 
         loadData()
 
         productRv?.layoutManager = LinearLayoutManager(activity)
 
-        adapter = ProductAdapter();
+        adapter = ProductAdapter(object : OnClickItemListener {
+            override fun onClick(product: Product) {
+                val intent = Intent(activity, ProductActivity::class.java)
+                intent.putExtra("search", product)
+                startActivity(intent)
+
+            }
+        });
         adapter.setData(lists)
         productRv?.adapter = adapter
 
@@ -56,15 +66,15 @@ class SearchFragment : Fragment() {
 
     private fun loadData() {
 
-        lists.add(Product(1, "Watch", R.drawable.watch3, 200, "soat",1))
+        lists.add(Product(1, "Watch", R.drawable.watch3, 200, "soat", 1))
         lists.add(
             Product(
                 2,
                 "Laptop HP",
                 R.drawable.laptop2,
                 2000,
-                "notebook HP"
-            ,1)
+                "notebook HP", 1
+            )
         )
         lists.add(
             Product(
@@ -72,8 +82,8 @@ class SearchFragment : Fragment() {
                 "Redme 5 Pro",
                 R.drawable.redme5pro,
                 240,
-                "Redme 5 Pro"
-            ,1)
+                "Redme 5 Pro", 1
+            )
         )
         lists.add(
             Product(
@@ -81,8 +91,8 @@ class SearchFragment : Fragment() {
                 "Samsung Note 20",
                 R.drawable.gallaxynote20,
                 200,
-                "Samsung gallaxy note 20"
-            ,1)
+                "Samsung gallaxy note 20", 1
+            )
         )
         lists.add(
             Product(
@@ -90,8 +100,8 @@ class SearchFragment : Fragment() {
                 "Watch Armany",
                 R.drawable.watch2,
                 200,
-                "Armaniy Soat"
-            ,1)
+                "Armaniy Soat", 1
+            )
         )
         lists.add(
             Product(
@@ -99,10 +109,11 @@ class SearchFragment : Fragment() {
                 "Quloqchin",
                 R.drawable.quloqchin,
                 230,
-                "Quloqchin"
-            ,1)
+                "Quloqchin", 1
+            )
         )
-        val product = Product(7, "Bluetooth", R.drawable.bluetooth, 22, "Bluetooth li quloqchin ",1)
+        val product =
+            Product(7, "Bluetooth", R.drawable.bluetooth, 22, "Bluetooth li quloqchin ", 1)
         lists.add(product)
         lists.add(
             Product(
@@ -110,8 +121,8 @@ class SearchFragment : Fragment() {
                 "Quloqchin Stok",
                 R.drawable.quloqchinstok,
                 230,
-                "Quloqchin"
-            ,1)
+                "Quloqchin", 1
+            )
         )
         lists.add(
             Product(
@@ -119,8 +130,8 @@ class SearchFragment : Fragment() {
                 "Iphone 12 Pro Max",
                 R.drawable.iphone12promax,
                 230,
-                "Iphone 12 Pro Max"
-            ,1)
+                "Iphone 12 Pro Max", 1
+            )
         )
     }
 
